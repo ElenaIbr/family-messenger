@@ -1,6 +1,7 @@
 package com.elenaibraeva.familymessenger
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,13 +18,11 @@ fun App() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = "Family Messenger",
-                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.headlineLarge,
                 )
             }

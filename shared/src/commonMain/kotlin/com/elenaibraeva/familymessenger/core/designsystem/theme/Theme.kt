@@ -38,6 +38,7 @@ fun FamilyMessengerTheme(
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
+            typography = familyTypography(),
             content = content,
         )
     }
