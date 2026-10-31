@@ -26,11 +26,11 @@ fun FMTextField(
     isError: Boolean = false,
     errorMessage: String? = null,
     singleLine: Boolean = true,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         OutlinedTextField(
             value = value,
@@ -46,7 +46,7 @@ fun FMTextField(
                 { FMText(text = it) }
             },
             keyboardOptions = keyboardOptions,
-            shape = MaterialTheme.shapes.medium,
+            shape = MaterialTheme.shapes.medium
         )
 
         if (isError && !errorMessage.isNullOrBlank()) {
@@ -54,7 +54,7 @@ fun FMTextField(
                 text = errorMessage,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier.padding(start = 16.dp)
             )
         }
     }
@@ -79,13 +79,13 @@ private fun FMTextFieldDarkPreview() {
 @Composable
 private fun FMTextFieldPreviewContent() {
     Surface(
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             FMTextField(
                 value = "",
@@ -93,14 +93,14 @@ private fun FMTextFieldPreviewContent() {
                 label = "Email",
                 placeholder = "Enter your email",
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                ),
+                    keyboardType = KeyboardType.Email
+                )
             )
 
             FMTextField(
                 value = "elena@example.com",
                 onValueChange = {},
-                label = "Email",
+                label = "Email"
             )
 
             FMTextField(
@@ -108,14 +108,14 @@ private fun FMTextFieldPreviewContent() {
                 onValueChange = {},
                 label = "Email",
                 isError = true,
-                errorMessage = "Please enter a valid email address",
+                errorMessage = "Please enter a valid email address"
             )
 
             FMTextField(
                 value = "Disabled field",
                 onValueChange = {},
                 label = "Email",
-                enabled = false,
+                enabled = false
             )
         }
     }

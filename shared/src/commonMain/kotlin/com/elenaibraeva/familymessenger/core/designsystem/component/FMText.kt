@@ -24,7 +24,7 @@ fun FMText(
     color: Color = Color.Unspecified,
     textAlign: TextAlign? = null,
     maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Clip
 ) {
     Text(
         text = text,
@@ -33,7 +33,7 @@ fun FMText(
         color = color,
         textAlign = textAlign,
         maxLines = maxLines,
-        overflow = overflow,
+        overflow = overflow
     )
 }
 
@@ -56,31 +56,31 @@ private fun FMTextDarkPreview() {
 @Composable
 private fun FMTextPreviewContent() {
     Surface(
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier.padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             FMText(
                 text = "Family Messenger",
-                style = MaterialTheme.typography.headlineLarge,
+                style = MaterialTheme.typography.headlineLarge
             )
 
             FMText(
                 text = "Your conversations",
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleMedium
             )
 
             FMText(
                 text = "Stay connected with your family.",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyMedium
             )
 
             FMText(
                 text = "Last seen recently",
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

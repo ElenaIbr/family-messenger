@@ -31,24 +31,24 @@ fun FMMessageInput(
     onValueChange: (String) -> Unit,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     val canSend = enabled && value.isNotBlank()
 
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(24.dp)
     ) {
         Row(
             modifier = Modifier.padding(
                 start = 16.dp,
                 end = 6.dp,
                 top = 6.dp,
-                bottom = 6.dp,
+                bottom = 6.dp
             ),
             verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             BasicTextField(
                 value = value,
@@ -58,10 +58,10 @@ fun FMMessageInput(
                     .padding(vertical = 10.dp),
                 enabled = enabled,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
                 cursorBrush = SolidColor(
-                    MaterialTheme.colorScheme.primary,
+                    MaterialTheme.colorScheme.primary
                 ),
                 minLines = 1,
                 maxLines = 6,
@@ -71,13 +71,13 @@ fun FMMessageInput(
                             FMText(
                                 text = "Message",
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
 
                         innerTextField()
                     }
-                },
+                }
             )
 
             FilledIconButton(
@@ -86,12 +86,12 @@ fun FMMessageInput(
                 modifier = Modifier.size(44.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_send),
-                    contentDescription = "Send message",
+                    contentDescription = "Send message"
                 )
             }
         }
@@ -117,22 +117,22 @@ private fun FMMessageInputDarkPreview() {
 @Composable
 private fun FMMessageInputPreviewContent() {
     Surface(
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             FMMessageInput(
                 value = "",
                 onValueChange = {},
-                onSendClick = {},
+                onSendClick = {}
             )
 
             FMMessageInput(
                 value = "Hello! 👋",
                 onValueChange = {},
-                onSendClick = {},
+                onSendClick = {}
             )
 
             FMMessageInput(
@@ -142,7 +142,7 @@ private fun FMMessageInputPreviewContent() {
                     I was thinking we could have dinner together.
                 """.trimIndent(),
                 onValueChange = {},
-                onSendClick = {},
+                onSendClick = {}
             )
         }
     }

@@ -26,10 +26,7 @@ import com.elenaibraeva.familymessenger.feature.chat.presentation.model.MessageD
 import com.elenaibraeva.familymessenger.feature.chat.presentation.model.MessageUiModel
 
 @Composable
-fun FMMessageBubble(
-    message: MessageUiModel,
-    modifier: Modifier = Modifier,
-) {
+fun FMMessageBubble(message: MessageUiModel, modifier: Modifier = Modifier) {
     val isOutgoing = message.direction == MessageDirection.OUTGOING
     val colors = FamilyTheme.colors
 
@@ -50,14 +47,14 @@ fun FMMessageBubble(
             topStart = 18.dp,
             topEnd = 18.dp,
             bottomStart = 18.dp,
-            bottomEnd = 4.dp,
+            bottomEnd = 4.dp
         )
     } else {
         RoundedCornerShape(
             topStart = 18.dp,
             topEnd = 18.dp,
             bottomStart = 4.dp,
-            bottomEnd = 18.dp,
+            bottomEnd = 18.dp
         )
     }
 
@@ -67,7 +64,7 @@ fun FMMessageBubble(
             Arrangement.End
         } else {
             Arrangement.Start
-        },
+        }
     ) {
         Column(
             modifier = Modifier
@@ -75,13 +72,13 @@ fun FMMessageBubble(
                 .widthIn(max = 360.dp)
                 .clip(shape)
                 .background(backgroundColor)
-                .padding(horizontal = 12.dp, vertical = 8.dp),
+                .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             when (val content = message.content) {
                 is MessageContent.Text -> {
                     TextMessageContent(
                         text = content.value,
-                        color = contentColor,
+                        color = contentColor
                     )
                 }
             }
@@ -91,7 +88,7 @@ fun FMMessageBubble(
             Row(
                 modifier = Modifier.align(Alignment.End),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 FMText(
                     text = message.formattedTime,
@@ -100,7 +97,7 @@ fun FMMessageBubble(
                         colors.outgoingMessageText
                     } else {
                         colors.incomingMessageText
-                    },
+                    }
                 )
 
                 if (isOutgoing) {
@@ -136,15 +133,15 @@ private fun MessageBubblesPreviewContent() {
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         FMMessageBubble(
             message = MessageUiModel(
                 id = "1",
                 content = MessageContent.Text("Hey! 😊"),
                 direction = MessageDirection.INCOMING,
-                formattedTime = "12:41",
-            ),
+                formattedTime = "12:41"
+            )
         )
 
         FMMessageBubble(
@@ -153,8 +150,8 @@ private fun MessageBubblesPreviewContent() {
                 content = MessageContent.Text("Hi! How are you?"),
                 direction = MessageDirection.OUTGOING,
                 formattedTime = "12:42",
-                deliveryStatus = MessageDeliveryStatus.READ,
-            ),
+                deliveryStatus = MessageDeliveryStatus.READ
+            )
         )
 
         FMMessageBubble(
@@ -162,11 +159,11 @@ private fun MessageBubblesPreviewContent() {
                 id = "3",
                 content = MessageContent.Text(
                     "I'm doing well! Are we still meeting this weekend? " +
-                            "I was thinking Saturday afternoon would be perfect.",
+                        "I was thinking Saturday afternoon would be perfect."
                 ),
                 direction = MessageDirection.INCOMING,
-                formattedTime = "12:43",
-            ),
+                formattedTime = "12:43"
+            )
         )
 
         FMMessageBubble(
@@ -175,8 +172,8 @@ private fun MessageBubblesPreviewContent() {
                 content = MessageContent.Text("Saturday works for me! 💜"),
                 direction = MessageDirection.OUTGOING,
                 formattedTime = "12:44",
-                deliveryStatus = MessageDeliveryStatus.DELIVERED,
-            ),
+                deliveryStatus = MessageDeliveryStatus.DELIVERED
+            )
         )
 
         FMMessageBubble(
@@ -185,8 +182,8 @@ private fun MessageBubblesPreviewContent() {
                 content = MessageContent.Text("See you there!"),
                 direction = MessageDirection.OUTGOING,
                 formattedTime = "12:45",
-                deliveryStatus = MessageDeliveryStatus.SENDING,
-            ),
+                deliveryStatus = MessageDeliveryStatus.SENDING
+            )
         )
 
         FMMessageBubble(
@@ -195,8 +192,8 @@ private fun MessageBubblesPreviewContent() {
                 content = MessageContent.Text("One more thing..."),
                 direction = MessageDirection.OUTGOING,
                 formattedTime = "12:46",
-                deliveryStatus = MessageDeliveryStatus.FAILED,
-            ),
+                deliveryStatus = MessageDeliveryStatus.FAILED
+            )
         )
     }
 }

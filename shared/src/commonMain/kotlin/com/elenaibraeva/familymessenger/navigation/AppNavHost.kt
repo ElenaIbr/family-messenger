@@ -17,32 +17,32 @@ private val navigationSavedStateConfiguration = SavedStateConfiguration {
         polymorphic(NavKey::class) {
             subclass(
                 Destination.Auth.EmailEntry::class,
-                Destination.Auth.EmailEntry.serializer(),
+                Destination.Auth.EmailEntry.serializer()
             )
             subclass(
                 Destination.Auth.OtpVerification::class,
-                Destination.Auth.OtpVerification.serializer(),
+                Destination.Auth.OtpVerification.serializer()
             )
             subclass(
                 Destination.Auth.ProfileSetup::class,
-                Destination.Auth.ProfileSetup.serializer(),
+                Destination.Auth.ProfileSetup.serializer()
             )
 
             subclass(
                 Destination.Main.Chats::class,
-                Destination.Main.Chats.serializer(),
+                Destination.Main.Chats.serializer()
             )
             subclass(
                 Destination.Main.Conversation::class,
-                Destination.Main.Conversation.serializer(),
+                Destination.Main.Conversation.serializer()
             )
             subclass(
                 Destination.Main.NewChat::class,
-                Destination.Main.NewChat.serializer(),
+                Destination.Main.NewChat.serializer()
             )
             subclass(
                 Destination.Main.Profile::class,
-                Destination.Main.Profile.serializer(),
+                Destination.Main.Profile.serializer()
             )
         }
     }
@@ -50,10 +50,9 @@ private val navigationSavedStateConfiguration = SavedStateConfiguration {
 
 @Composable
 fun AppNavHost() {
-
     val backStack = rememberNavBackStack(
         configuration = navigationSavedStateConfiguration,
-        Destination.Main.Chats,
+        Destination.Main.Chats
     )
 
     NavDisplay(
@@ -66,7 +65,7 @@ fun AppNavHost() {
                     Button(
                         onClick = {
                             backStack.add(Destination.Main.Profile)
-                        },
+                        }
                     ) {
                         Text("Open Profile")
                     }
@@ -76,6 +75,6 @@ fun AppNavHost() {
             entry<Destination.Main.Profile> {
                 Text("Profile")
             }
-        },
+        }
     )
 }

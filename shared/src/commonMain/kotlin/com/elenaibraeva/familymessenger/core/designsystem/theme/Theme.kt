@@ -19,7 +19,7 @@ object FamilyTheme {
 @Composable
 fun FamilyMessengerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) {
         DarkColorScheme
@@ -34,12 +34,12 @@ fun FamilyMessengerTheme(
     }
 
     CompositionLocalProvider(
-        LocalExtendedColors provides extendedColors,
+        LocalExtendedColors provides extendedColors
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = familyTypography(),
-            content = content,
+            content = content
         )
     }
 }

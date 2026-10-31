@@ -8,5 +8,5 @@ data class Message(
     val senderId: String,
     val content: MessageContent,
     val createdAt: Instant,
-    val deliveryStatus: MessageDeliveryStatus? = null,
+    val deliveryStatus: MessageDeliveryStatus? = null
 )

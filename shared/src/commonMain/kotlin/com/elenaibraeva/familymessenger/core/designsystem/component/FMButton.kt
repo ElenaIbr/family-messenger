@@ -18,7 +18,7 @@ fun FMButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     Button(
         onClick = onClick,
@@ -27,19 +27,19 @@ fun FMButton(
         shape = MaterialTheme.shapes.large,
         contentPadding = PaddingValues(
             horizontal = 24.dp,
-            vertical = 12.dp,
-        ),
+            vertical = 12.dp
+        )
     ) {
         FMText(
             text = text,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }
 
 @Preview(
     name = "FMButton - Light",
-    showBackground = true,
+    showBackground = true
 )
 @Composable
 private fun FMButtonLightPreview() {
@@ -50,7 +50,7 @@ private fun FMButtonLightPreview() {
 
 @Preview(
     name = "FMButton - Dark",
-    showBackground = true,
+    showBackground = true
 )
 @Composable
 private fun FMButtonDarkPreview() {
@@ -62,11 +62,11 @@ private fun FMButtonDarkPreview() {
 @Composable
 private fun FMButtonPreviewContent() {
     Column(
-        modifier = Modifier.padding(24.dp),
+        modifier = Modifier.padding(24.dp)
     ) {
         FMButton(
             text = "Continue",
-            onClick = {},
+            onClick = {}
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -74,7 +74,7 @@ private fun FMButtonPreviewContent() {
         FMButton(
             text = "Continue",
             onClick = {},
-            enabled = false,
+            enabled = false
         )
     }
 }

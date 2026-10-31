@@ -8,6 +8,5 @@ data class MessageUiModel(
     val content: MessageContent,
     val direction: MessageDirection,
     val formattedTime: String,
-    val deliveryStatus: MessageDeliveryStatus? = null,
+    val deliveryStatus: MessageDeliveryStatus? = null
 )
-

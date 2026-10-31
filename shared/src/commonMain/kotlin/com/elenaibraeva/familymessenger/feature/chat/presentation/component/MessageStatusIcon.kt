@@ -24,10 +24,7 @@ import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyMessengerT
 import com.elenaibraeva.familymessenger.feature.chat.domain.model.MessageDeliveryStatus
 
 @Composable
-internal fun MessageStatusIcon(
-    status: MessageDeliveryStatus,
-    modifier: Modifier = Modifier,
-) {
+internal fun MessageStatusIcon(status: MessageDeliveryStatus, modifier: Modifier = Modifier) {
     val color = when (status) {
         MessageDeliveryStatus.READ -> MaterialTheme.colorScheme.primary
         MessageDeliveryStatus.FAILED -> MaterialTheme.colorScheme.error
@@ -39,7 +36,7 @@ internal fun MessageStatusIcon(
             CircularProgressIndicator(
                 modifier = modifier.size(12.dp),
                 strokeWidth = 1.5.dp,
-                color = color,
+                color = color
             )
         }
 
@@ -47,27 +44,23 @@ internal fun MessageStatusIcon(
             Text(
                 text = "!",
                 color = color,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelSmall
             )
         }
 
         else -> {
             MessageCheckmarks(
                 double = status == MessageDeliveryStatus.DELIVERED ||
-                        status == MessageDeliveryStatus.READ,
+                    status == MessageDeliveryStatus.READ,
                 color = color,
-                modifier = modifier,
+                modifier = modifier
             )
         }
     }
 }
 
 @Composable
-private fun MessageCheckmarks(
-    double: Boolean,
-    color: Color,
-    modifier: Modifier = Modifier,
-) {
+private fun MessageCheckmarks(double: Boolean, color: Color, modifier: Modifier = Modifier) {
     Canvas(modifier = modifier.size(width = 18.dp, height = 12.dp)) {
         val stroke = 1.6.dp.toPx()
 
@@ -80,14 +73,14 @@ private fun MessageCheckmarks(
                 start = Offset(offsetX + width * 0.05f, height * 0.52f),
                 end = Offset(offsetX + width * 0.22f, height * 0.8f),
                 strokeWidth = stroke,
-                cap = StrokeCap.Round,
+                cap = StrokeCap.Round
             )
             drawLine(
                 color = color,
                 start = Offset(offsetX + width * 0.22f, height * 0.8f),
                 end = Offset(offsetX + width * 0.55f, height * 0.18f),
                 strokeWidth = stroke,
-                cap = StrokeCap.Round,
+                cap = StrokeCap.Round
             )
         }
 
@@ -122,16 +115,16 @@ private fun MessageStatusPreviewContent() {
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         MessageDeliveryStatus.entries.forEach { status ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Box(
                     modifier = Modifier.width(32.dp),
-                    contentAlignment = Alignment.Center,
+                    contentAlignment = Alignment.Center
                 ) {
                     MessageStatusIcon(status = status)
                 }
@@ -139,7 +132,7 @@ private fun MessageStatusPreviewContent() {
                 Text(
                     text = status.name,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

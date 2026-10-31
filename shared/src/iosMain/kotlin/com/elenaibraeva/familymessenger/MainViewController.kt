@@ -2,4 +2,7 @@ package com.elenaibraeva.familymessenger
 
 import androidx.compose.ui.window.ComposeUIViewController
 
-fun MainViewController() = ComposeUIViewController { App() }
+@Suppress("ktlint:standard:function-naming")
+fun MainViewController() = ComposeUIViewController {
+    App()
+}

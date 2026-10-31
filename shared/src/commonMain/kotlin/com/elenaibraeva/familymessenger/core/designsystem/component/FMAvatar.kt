@@ -29,14 +29,14 @@ fun FMAvatar(
     imageUrl: String?,
     initials: String?,
     modifier: Modifier = Modifier,
-    size: Dp = 48.dp,
+    size: Dp = 48.dp
 ) {
     Box(
         modifier = modifier
             .size(size)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.primaryContainer),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         if (imageUrl.isNullOrBlank()) {
             FMAvatarPlaceholder(initials)
@@ -54,28 +54,26 @@ fun FMAvatar(
                 },
                 success = {
                     SubcomposeAsyncImageContent()
-                },
+                }
             )
         }
     }
 }
 
 @Composable
-private fun FMAvatarPlaceholder(
-    initials: String?,
-) {
+private fun FMAvatarPlaceholder(initials: String?) {
     if (!initials.isNullOrBlank()) {
         FMText(
             text = initials.take(2).uppercase(),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     } else {
         Icon(
             painter = painterResource(Res.drawable.ic_person),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onPrimaryContainer,
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(24.dp)
         )
     }
 }
@@ -99,31 +97,30 @@ private fun FMAvatarDarkPreview() {
 @Composable
 private fun FMAvatarPreviewContent() {
     androidx.compose.material3.Surface(
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.background
     ) {
         androidx.compose.foundation.layout.Row(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             FMAvatar(
                 imageUrl = null,
                 initials = "EL",
-                size = 56.dp,
+                size = 56.dp
             )
 
             FMAvatar(
                 imageUrl = null,
                 initials = "M",
-                size = 48.dp,
+                size = 48.dp
             )
 
             FMAvatar(
                 imageUrl = null,
                 initials = null,
-                size = 40.dp,
+                size = 40.dp
             )
         }
     }
 }
-
