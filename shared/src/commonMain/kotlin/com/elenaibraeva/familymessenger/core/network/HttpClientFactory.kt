@@ -7,8 +7,8 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.accept
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -20,7 +20,7 @@ object HttpClientFactory {
     fun create(
         engine: HttpClientEngine,
         baseUrl: String,
-        enableLogging: Boolean = false,
+        enableLogging: Boolean = false
     ): HttpClient = HttpClient(engine) {
         expectSuccess = true
 
@@ -29,7 +29,7 @@ object HttpClientFactory {
                 Json {
                     ignoreUnknownKeys = true
                     explicitNulls = false
-                },
+                }
             )
         }
 

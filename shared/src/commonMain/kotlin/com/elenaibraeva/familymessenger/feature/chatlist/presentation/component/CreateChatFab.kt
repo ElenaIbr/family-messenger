@@ -7,57 +7,53 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.elenaibraeva.familymessenger.generated.resources.Res
 import com.elenaibraeva.familymessenger.generated.resources.ic_create_chat
 import org.jetbrains.compose.resources.painterResource
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun CreateChatFab(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    visible: Boolean = true,
-) {
+fun CreateChatFab(onClick: () -> Unit, modifier: Modifier = Modifier, visible: Boolean = true) {
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn(animationSpec = tween(220)) +
-                scaleIn(
-                    initialScale = 0.8f,
-                    animationSpec = tween(220),
-                ),
+            scaleIn(
+                initialScale = 0.8f,
+                animationSpec = tween(220)
+            ),
         exit = fadeOut(animationSpec = tween(150)) +
-                scaleOut(
-                    targetScale = 0.8f,
-                    animationSpec = tween(150),
-                ),
-        modifier = modifier,
+            scaleOut(
+                targetScale = 0.8f,
+                animationSpec = tween(150)
+            ),
+        modifier = modifier
     ) {
         FloatingActionButton(
             onClick = onClick,
             shape = RoundedCornerShape(16.dp),
             containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         ) {
             Icon(
                 painter = painterResource(Res.drawable.ic_create_chat),
-                contentDescription = "Create new chat",
+                contentDescription = "Create new chat"
             )
         }
     }
@@ -69,7 +65,7 @@ private fun CreateChatFabLightPreview() {
     MaterialTheme {
         Box(modifier = Modifier.padding(24.dp)) {
             CreateChatFab(
-                onClick = {},
+                onClick = {}
             )
         }
     }
@@ -79,11 +75,11 @@ private fun CreateChatFabLightPreview() {
 @Composable
 private fun CreateChatFabDarkPreview() {
     MaterialTheme(
-        colorScheme = androidx.compose.material3.darkColorScheme(),
+        colorScheme = androidx.compose.material3.darkColorScheme()
     ) {
         Box(modifier = Modifier.padding(24.dp)) {
             CreateChatFab(
-                onClick = {},
+                onClick = {}
             )
         }
     }
@@ -97,15 +93,15 @@ private fun CreateChatFabInteractivePreview() {
     MaterialTheme {
         Column(
             modifier = Modifier.padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             CreateChatFab(
                 onClick = {},
-                visible = visible,
+                visible = visible
             )
 
             Button(
-                onClick = { visible = !visible },
+                onClick = { visible = !visible }
             ) {
                 Text(if (visible) "Hide FAB" else "Show FAB")
             }
