@@ -1,0 +1,214 @@
+
+openapi: 3.1.0
+
+info:
+  title: Family Messenger API
+  description: REST API for Family Messenger
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+tags:
+  - name: Messages
+    description: Chat message operations
+
+paths:
+  /api/v1/chats/{chatId}/messages:
+    parameters:
+      - name: chatId
+        in: path
+        required: true
+        description: Unique chat identifier
+        schema:
+          type: string
+          format: uuid
+
+    get:
+      tags:
+        - Messages
+      operationId: getChatMessages
+      summary: Get chat message history
+      description: >
+        Returns messages ordered by createdAt descending,
+        with id descending as a tie-breaker.
+        Only chat members can access the history.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+
+        - name: cursor
+          in: query
+          required: false
+          description: Opaque cursor returned by the previous page
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Message history retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagePage'
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - Messages
+      operationId: sendMessage
+      summary: Send a text message
+      description: >
+        Creates a message in the specified chat.
+        The sender is determined from the authenticated user.
+        Only chat members can send messages.
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+
+      responses:
+        '201':
+          description: Message created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        Future production authentication.
+        Local development temporarily uses an isolated
+        test identity without exposing it publicly.
+
+  schemas:
+    SendMessageRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          minLength: 1
+          maxLength: 4000
+          description: Non-blank text message
+
+    Message:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - chatId
+        - senderId
+        - content
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        chatId:
+          type: string
+          format: uuid
+        senderId:
+          type: string
+          format: uuid
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          description: UTC timestamp in RFC 3339 format
+
+    MessagePage:
+      type: object
+      additionalProperties: false
+      required:
+        - items
+        - nextCursor
+      properties:
+        items:
+          type: array
+          description: Messages ordered newest first
+          items:
+            $ref: '#/components/schemas/Message'
+        nextCursor:
+          type:
+            - string
+            - 'null'
+          description: Null when there are no more messages
+
+    ApiError:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+
+  responses:
+    BadRequest:
+      description: Invalid request or query parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+
+    Unauthorized:
+      description: Authentication is required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+
+    NotFound:
+      description: Chat does not exist or is inaccessible
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
