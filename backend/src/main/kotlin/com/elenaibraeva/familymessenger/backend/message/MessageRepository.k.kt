@@ -33,22 +33,74 @@ class MessageRepository(
         ) ?: error("Failed to save message")
     }
 
+
     fun findByChatId(
         chatId: UUID,
         limit: Int = 50,
-    ): List<Message> =
-        jdbcTemplate.query(
-            """
+        cursor: String? = null,
+    ): MessagePage {
+        require(limit in 1..100)
+
+        val decodedCursor = cursor?.let(MessageCursor::decode)
+
+        val sql = buildString {
+            append(
+                """
             SELECT id, chat_id, sender_id, content, created_at
             FROM messages
             WHERE chat_id = ?
+            """.trimIndent()
+            )
+
+            if (decodedCursor != null) {
+                append(
+                    """
+                
+                AND (created_at, id) < (?, ?)
+                """.trimIndent()
+                )
+            }
+
+            append(
+                """
+            
             ORDER BY created_at DESC, id DESC
             LIMIT ?
-            """.trimIndent(),
+            """.trimIndent()
+            )
+        }
+
+        val args = mutableListOf<Any>(chatId)
+
+        if (decodedCursor != null) {
+            args.add(decodedCursor.createdAt)
+            args.add(decodedCursor.id)
+        }
+
+        args.add(limit + 1)
+
+        val messages = jdbcTemplate.query(
+            sql,
             { rs, _ -> rs.toMessage() },
-            chatId,
-            limit,
+            *args.toTypedArray(),
         )
+
+        val hasMore = messages.size > limit
+        val items = messages.take(limit)
+
+        val nextCursor = if (hasMore) {
+            items.last().let {
+                MessageCursor(it.createdAt, it.id).encode()
+            }
+        } else {
+            null
+        }
+
+        return MessagePage(
+            items = items,
+            nextCursor = nextCursor,
+        )
+    }
 
     private fun ResultSet.toMessage(): Message =
         Message(

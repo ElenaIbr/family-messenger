@@ -23,3 +23,13 @@ fun Message.toResponse() = MessageResponse(
     content = content,
     createdAt = createdAt,
 )
+
+data class MessagePageResponse(
+    val items: List<MessageResponse>,
+    val nextCursor: String?,
+)
+
+fun MessagePage.toResponse() = MessagePageResponse(
+    items = items.map { it.toResponse() },
+    nextCursor = nextCursor,
+)

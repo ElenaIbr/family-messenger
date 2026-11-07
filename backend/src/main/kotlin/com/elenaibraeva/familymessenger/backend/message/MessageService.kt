@@ -36,6 +36,26 @@ class MessageService(
             content = content,
         )
     }
+
+    @Transactional(readOnly = true)
+    fun getMessages(
+        chatId: UUID,
+        userId: UUID,
+        limit: Int = 50,
+        cursor: String? = null,
+    ): MessagePage {
+        require(limit in 1..100)
+
+        if (!chatMemberRepository.isMember(chatId, userId)) {
+            throw ChatNotFoundException()
+        }
+
+        return messageRepository.findByChatId(
+            chatId = chatId,
+            limit = limit,
+            cursor = cursor,
+        )
+    }
 }
 
 class ChatNotFoundException :
