@@ -1,5 +1,6 @@
 package com.elenaibraeva.familymessenger.backend
 
+import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -7,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.DynamicPropertyRegistry
-import org.testcontainers.postgresql.PostgreSQLContainer
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import java.util.UUID
+import org.testcontainers.postgresql.PostgreSQLContainer
 
 @Testcontainers
 @SpringBootTest(
@@ -31,23 +31,32 @@ class DatabaseIntegrationTest {
 
         jdbcTemplate.update(
             "INSERT INTO users (id, display_name) VALUES (?, ?)",
-            aliceId, "Alice"
+            aliceId,
+            "Alice"
         )
         jdbcTemplate.update(
             "INSERT INTO users (id, display_name) VALUES (?, ?)",
-            bobId, "Bob"
+            bobId,
+            "Bob"
         )
         jdbcTemplate.update(
             "INSERT INTO chats (id, type) VALUES (?, ?)",
-            chatId, "DIRECT"
+            chatId,
+            "DIRECT"
         )
         jdbcTemplate.update(
             "INSERT INTO chat_members (chat_id, user_id) VALUES (?, ?), (?, ?)",
-            chatId, aliceId, chatId, bobId
+            chatId,
+            aliceId,
+            chatId,
+            bobId
         )
         jdbcTemplate.update(
             "INSERT INTO messages (id, chat_id, sender_id, content) VALUES (?, ?, ?, ?)",
-            messageId, chatId, aliceId, "Hello, Bob!"
+            messageId,
+            chatId,
+            aliceId,
+            "Hello, Bob!"
         )
 
         val content = jdbcTemplate.queryForObject(
@@ -66,21 +75,25 @@ class DatabaseIntegrationTest {
 
         jdbcTemplate.update(
             "INSERT INTO users (id, display_name) VALUES (?, ?)",
-            userId, "Alice"
+            userId,
+            "Alice"
         )
         jdbcTemplate.update(
             "INSERT INTO chats (id, type) VALUES (?, ?)",
-            chatId, "GROUP"
+            chatId,
+            "GROUP"
         )
         jdbcTemplate.update(
             "INSERT INTO chat_members (chat_id, user_id) VALUES (?, ?)",
-            chatId, userId
+            chatId,
+            userId
         )
 
         assertThrows(Exception::class.java) {
             jdbcTemplate.update(
                 "INSERT INTO chat_members (chat_id, user_id) VALUES (?, ?)",
-                chatId, userId
+                chatId,
+                userId
             )
         }
     }
@@ -92,21 +105,27 @@ class DatabaseIntegrationTest {
 
         jdbcTemplate.update(
             "INSERT INTO users (id, display_name) VALUES (?, ?)",
-            userId, "Alice"
+            userId,
+            "Alice"
         )
         jdbcTemplate.update(
             "INSERT INTO chats (id, type) VALUES (?, ?)",
-            chatId, "DIRECT"
+            chatId,
+            "DIRECT"
         )
         jdbcTemplate.update(
             "INSERT INTO chat_members (chat_id, user_id) VALUES (?, ?)",
-            chatId, userId
+            chatId,
+            userId
         )
 
         assertThrows(Exception::class.java) {
             jdbcTemplate.update(
                 "INSERT INTO messages (id, chat_id, sender_id, content) VALUES (?, ?, ?, ?)",
-                UUID.randomUUID(), chatId, userId, "   "
+                UUID.randomUUID(),
+                chatId,
+                userId,
+                "   "
             )
         }
     }

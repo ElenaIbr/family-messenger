@@ -2,6 +2,7 @@ package com.elenaibraeva.familymessenger.feature.chat.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -58,51 +59,55 @@ fun FMMessageBubble(message: MessageUiModel, modifier: Modifier = Modifier) {
         )
     }
 
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = if (isOutgoing) {
-            Arrangement.End
-        } else {
-            Arrangement.Start
-        }
+    BoxWithConstraints(
+        modifier = modifier.fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(0.85f)
-                .widthIn(max = 360.dp)
-                .clip(shape)
-                .background(backgroundColor)
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+        val maxBubbleWidth = maxWidth * 0.7f
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = if (isOutgoing) {
+                Arrangement.End
+            } else {
+                Arrangement.Start
+            }
         ) {
-            when (val content = message.content) {
-                is MessageContent.Text -> {
-                    TextMessageContent(
-                        text = content.value,
+            Column(
+                modifier = Modifier
+                    .widthIn(max = maxBubbleWidth)
+                    .clip(shape)
+                    .background(backgroundColor)
+                    .padding(
+                        horizontal = 12.dp,
+                        vertical = 8.dp
+                    )
+            ) {
+                when (val content = message.content) {
+                    is MessageContent.Text -> {
+                        TextMessageContent(
+                            text = content.value,
+                            color = contentColor
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(4.dp))
+
+                Row(
+                    modifier = Modifier.align(Alignment.End),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    FMText(
+                        text = message.formattedTime,
+                        style = MaterialTheme.typography.labelSmall,
                         color = contentColor
                     )
-                }
-            }
 
-            Spacer(Modifier.height(4.dp))
-
-            Row(
-                modifier = Modifier.align(Alignment.End),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                FMText(
-                    text = message.formattedTime,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = if (isOutgoing) {
-                        colors.outgoingMessageText
-                    } else {
-                        colors.incomingMessageText
-                    }
-                )
-
-                if (isOutgoing) {
-                    message.deliveryStatus?.let { status ->
-                        MessageStatusIcon(status = status)
+                    if (isOutgoing) {
+                        message.deliveryStatus?.let { status ->
+                            MessageStatusIcon(status = status)
+                        }
                     }
                 }
             }

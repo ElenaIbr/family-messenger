@@ -11,7 +11,7 @@ val networkModule = module {
         HttpClientFactory.create(
             engine = get<HttpClientEngine>(),
             baseUrl = get<NetworkConfig>().baseUrl,
-            enableLogging = true,
+            enableLogging = true
         )
     }
 

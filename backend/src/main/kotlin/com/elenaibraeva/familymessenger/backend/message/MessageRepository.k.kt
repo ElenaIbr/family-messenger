@@ -1,22 +1,16 @@
 
 package com.elenaibraeva.familymessenger.backend.message
 
-import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 import java.time.OffsetDateTime
 import java.util.UUID
+import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.stereotype.Repository
 
 @Repository
-class MessageRepository(
-    private val jdbcTemplate: JdbcTemplate,
-) {
+class MessageRepository(private val jdbcTemplate: JdbcTemplate) {
 
-    fun save(
-        chatId: UUID,
-        senderId: UUID,
-        content: String,
-    ): Message {
+    fun save(chatId: UUID, senderId: UUID, content: String): Message {
         val id = UUID.randomUUID()
 
         return jdbcTemplate.queryForObject(
@@ -29,16 +23,11 @@ class MessageRepository(
             id,
             chatId,
             senderId,
-            content,
+            content
         ) ?: error("Failed to save message")
     }
 
-
-    fun findByChatId(
-        chatId: UUID,
-        limit: Int = 50,
-        cursor: String? = null,
-    ): MessagePage {
+    fun findByChatId(chatId: UUID, limit: Int = 50, cursor: String? = null): MessagePage {
         require(limit in 1..100)
 
         val decodedCursor = cursor?.let(MessageCursor::decode)
@@ -49,7 +38,7 @@ class MessageRepository(
             SELECT id, chat_id, sender_id, content, created_at
             FROM messages
             WHERE chat_id = ?
-            """.trimIndent()
+                """.trimIndent()
             )
 
             if (decodedCursor != null) {
@@ -57,7 +46,7 @@ class MessageRepository(
                     """
                 
                 AND (created_at, id) < (?, ?)
-                """.trimIndent()
+                    """.trimIndent()
                 )
             }
 
@@ -66,7 +55,7 @@ class MessageRepository(
             
             ORDER BY created_at DESC, id DESC
             LIMIT ?
-            """.trimIndent()
+                """.trimIndent()
             )
         }
 
@@ -82,7 +71,7 @@ class MessageRepository(
         val messages = jdbcTemplate.query(
             sql,
             { rs, _ -> rs.toMessage() },
-            *args.toTypedArray(),
+            *args.toTypedArray()
         )
 
         val hasMore = messages.size > limit
@@ -98,16 +87,15 @@ class MessageRepository(
 
         return MessagePage(
             items = items,
-            nextCursor = nextCursor,
+            nextCursor = nextCursor
         )
     }
 
-    private fun ResultSet.toMessage(): Message =
-        Message(
-            id = getObject("id", UUID::class.java),
-            chatId = getObject("chat_id", UUID::class.java),
-            senderId = getObject("sender_id", UUID::class.java),
-            content = getString("content"),
-            createdAt = getObject("created_at", OffsetDateTime::class.java),
-        )
+    private fun ResultSet.toMessage(): Message = Message(
+        id = getObject("id", UUID::class.java),
+        chatId = getObject("chat_id", UUID::class.java),
+        senderId = getObject("sender_id", UUID::class.java),
+        content = getString("content"),
+        createdAt = getObject("created_at", OffsetDateTime::class.java)
+    )
 }

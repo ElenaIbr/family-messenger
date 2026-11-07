@@ -8,17 +8,11 @@ data class MessageDto(
     val chatId: String,
     val senderId: String,
     val content: String,
-    val createdAt: String,
+    val createdAt: String
 )
 
 @Serializable
-data class MessagePageDto(
-    val items: List<MessageDto>,
-    val nextCursor: String?,
-)
+data class MessagePageDto(val items: List<MessageDto>, val nextCursor: String?)
 
 @Serializable
-data class SendMessageRequest(
-    val content: String,
-)
-
+data class SendMessageRequest(val content: String)

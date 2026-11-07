@@ -1,8 +1,8 @@
 package com.elenaibraeva.familymessenger.backend.dev
 
+import java.util.UUID
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
-import java.util.UUID
 
 @Component
 @Profile("dev")

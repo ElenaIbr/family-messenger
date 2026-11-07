@@ -2,22 +2,18 @@
 package com.elenaibraeva.familymessenger.backend.message
 
 import com.elenaibraeva.familymessenger.backend.chat.ChatMemberRepository
+import java.util.UUID
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 class MessageService(
     private val messageRepository: MessageRepository,
-    private val chatMemberRepository: ChatMemberRepository,
+    private val chatMemberRepository: ChatMemberRepository
 ) {
 
     @Transactional
-    fun sendMessage(
-        chatId: UUID,
-        senderId: UUID,
-        content: String,
-    ): Message {
+    fun sendMessage(chatId: UUID, senderId: UUID, content: String): Message {
         require(content.isNotBlank()) {
             "Message content cannot be blank"
         }
@@ -33,7 +29,7 @@ class MessageService(
         return messageRepository.save(
             chatId = chatId,
             senderId = senderId,
-            content = content,
+            content = content
         )
     }
 
@@ -42,7 +38,7 @@ class MessageService(
         chatId: UUID,
         userId: UUID,
         limit: Int = 50,
-        cursor: String? = null,
+        cursor: String? = null
     ): MessagePage {
         require(limit in 1..100)
 
@@ -53,10 +49,9 @@ class MessageService(
         return messageRepository.findByChatId(
             chatId = chatId,
             limit = limit,
-            cursor = cursor,
+            cursor = cursor
         )
     }
 }
 
-class ChatNotFoundException :
-    RuntimeException("Chat not found")
+class ChatNotFoundException : RuntimeException("Chat not found")

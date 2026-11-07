@@ -8,5 +8,5 @@ data class Message(
     val chatId: UUID,
     val senderId: UUID,
     val content: String,
-    val createdAt: OffsetDateTime,
+    val createdAt: OffsetDateTime
 )

@@ -1,6 +1,7 @@
 
 package com.elenaibraeva.familymessenger.backend.message
 
+import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -12,7 +13,6 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.postgresql.PostgreSQLContainer
-import java.util.UUID
 
 @Testcontainers
 @SpringBootTest(properties = ["spring.docker.compose.enabled=false"])
@@ -32,23 +32,30 @@ class MessageRepositoryIntegrationTest {
 
         jdbcTemplate.update(
             "INSERT INTO users (id, display_name) VALUES (?, ?), (?, ?)",
-            aliceId, "Alice", bobId, "Bob",
+            aliceId,
+            "Alice",
+            bobId,
+            "Bob"
         )
 
         jdbcTemplate.update(
             "INSERT INTO chats (id, type) VALUES (?, ?)",
-            chatId, "DIRECT",
+            chatId,
+            "DIRECT"
         )
 
         jdbcTemplate.update(
             "INSERT INTO chat_members (chat_id, user_id) VALUES (?, ?), (?, ?)",
-            chatId, aliceId, chatId, bobId,
+            chatId,
+            aliceId,
+            chatId,
+            bobId
         )
 
         val saved = repository.save(
             chatId = chatId,
             senderId = aliceId,
-            content = "Hello, Bob!",
+            content = "Hello, Bob!"
         )
 
         assertNotNull(saved.id)
@@ -81,7 +88,6 @@ class MessageRepositoryIntegrationTest {
         }
     }
 
-
     @Test
     fun `should paginate messages using cursor`() {
         val aliceId = UUID.randomUUID()
@@ -90,30 +96,37 @@ class MessageRepositoryIntegrationTest {
 
         jdbcTemplate.update(
             "INSERT INTO users (id, display_name) VALUES (?, ?), (?, ?)",
-            aliceId, "Alice", bobId, "Bob",
+            aliceId,
+            "Alice",
+            bobId,
+            "Bob"
         )
 
         jdbcTemplate.update(
             "INSERT INTO chats (id, type) VALUES (?, ?)",
-            chatId, "DIRECT",
+            chatId,
+            "DIRECT"
         )
 
         jdbcTemplate.update(
             "INSERT INTO chat_members (chat_id, user_id) VALUES (?, ?), (?, ?)",
-            chatId, aliceId, chatId, bobId,
+            chatId,
+            aliceId,
+            chatId,
+            bobId
         )
 
         repeat(5) { index ->
             repository.save(
                 chatId = chatId,
                 senderId = aliceId,
-                content = "Message $index",
+                content = "Message $index"
             )
         }
 
         val firstPage = repository.findByChatId(
             chatId = chatId,
-            limit = 2,
+            limit = 2
         )
 
         assertEquals(2, firstPage.items.size)
@@ -122,7 +135,7 @@ class MessageRepositoryIntegrationTest {
         val secondPage = repository.findByChatId(
             chatId = chatId,
             limit = 2,
-            cursor = firstPage.nextCursor,
+            cursor = firstPage.nextCursor
         )
 
         assertEquals(2, secondPage.items.size)
@@ -131,17 +144,17 @@ class MessageRepositoryIntegrationTest {
         val thirdPage = repository.findByChatId(
             chatId = chatId,
             limit = 2,
-            cursor = secondPage.nextCursor,
+            cursor = secondPage.nextCursor
         )
 
         assertEquals(1, thirdPage.items.size)
         assertEquals(null, thirdPage.nextCursor)
 
         val allIds = (
-                firstPage.items +
-                        secondPage.items +
-                        thirdPage.items
-                ).map { it.id }
+            firstPage.items +
+                secondPage.items +
+                thirdPage.items
+            ).map { it.id }
 
         assertEquals(5, allIds.distinct().size)
     }

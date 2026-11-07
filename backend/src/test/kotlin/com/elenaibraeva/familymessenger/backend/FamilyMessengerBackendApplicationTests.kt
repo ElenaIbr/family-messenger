@@ -9,5 +9,4 @@ class FamilyMessengerBackendApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }
