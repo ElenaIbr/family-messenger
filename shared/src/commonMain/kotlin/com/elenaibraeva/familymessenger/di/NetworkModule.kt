@@ -1,5 +1,6 @@
 package com.elenaibraeva.familymessenger.di
 
+import MessageApi
 import com.elenaibraeva.familymessenger.core.network.HttpClientFactory
 import com.elenaibraeva.familymessenger.core.network.NetworkConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -9,8 +10,10 @@ val networkModule = module {
     single {
         HttpClientFactory.create(
             engine = get<HttpClientEngine>(),
-            baseUrl = NetworkConfig.BASE_URL,
-            enableLogging = true
+            baseUrl = get<NetworkConfig>().baseUrl,
+            enableLogging = true,
         )
     }
+
+    single { MessageApi(client = get()) }
 }
