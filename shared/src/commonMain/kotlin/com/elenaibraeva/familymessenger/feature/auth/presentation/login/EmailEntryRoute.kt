@@ -9,7 +9,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun EmailEntryRoute(
     onNavigateToVerification: (String) -> Unit,
-    viewModel: EmailEntryViewModel = koinViewModel(),
+    viewModel: EmailEntryViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -25,6 +25,6 @@ fun EmailEntryRoute(
     EmailEntryScreen(
         uiState = uiState,
         onEmailChanged = viewModel::onEmailChanged,
-        onContinue = viewModel::onContinue,
+        onContinue = viewModel::onContinue
     )
 }

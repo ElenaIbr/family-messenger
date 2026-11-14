@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class EmailEntryViewModel(
-    private val authRepository: AuthRepository,
-) : ViewModel() {
+class EmailEntryViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EmailEntryUiState())
     val uiState = _uiState.asStateFlow()
@@ -25,7 +23,7 @@ class EmailEntryViewModel(
         _uiState.update {
             it.copy(
                 email = email,
-                error = null,
+                error = null
             )
         }
     }

@@ -1,40 +1,29 @@
 package com.elenaibraeva.familymessenger.feature.auth.presentation.login
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.elenaibraeva.familymessenger.core.designsystem.component.FMButton
 import com.elenaibraeva.familymessenger.core.designsystem.component.FMText
-import com.elenaibraeva.familymessenger.core.designsystem.component.FMTextField
 import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyMessengerTheme
-import com.elenaibraeva.familymessenger.generated.resources.Res
-import com.elenaibraeva.familymessenger.generated.resources.ic_family_messenger
-import org.jetbrains.compose.resources.painterResource
+import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyTheme
+import com.elenaibraeva.familymessenger.feature.auth.presentation.component.AuthEmailTextField
+import com.elenaibraeva.familymessenger.feature.auth.presentation.component.FamilyOrbitIllustration
 
 @Composable
 fun EmailEntryScreen(
@@ -42,118 +31,105 @@ fun EmailEntryScreen(
     onEmailChanged: (String) -> Unit,
     onContinue: () -> Unit,
     modifier: Modifier = Modifier,
+    animateIllustration: Boolean = true
 ) {
-    var email by remember { mutableStateOf("") }
+    val colors = FamilyTheme.colors
+    val colorScheme = MaterialTheme.colorScheme
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .imePadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(32.dp))
 
-        Image(
-            painter = painterResource(Res.drawable.ic_family_messenger),
-            contentDescription = "Family Messenger",
+        FamilyOrbitIllustration(
             modifier = Modifier
-                .size(80.dp)
-                .align(Alignment.Start)
+                .widthIn(max = 280.dp)
+                .fillMaxWidth(),
+            animate = animateIllustration
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        FMText(
+            text = "Family Messenger",
+            style = MaterialTheme.typography.headlineLarge.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            color = colors.brandTitle,
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        FMText(
+            text = "Stay close to the people who matter most.",
+            style = MaterialTheme.typography.bodyLarge,
+            color = colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.widthIn(max = 320.dp)
         )
 
         Spacer(Modifier.height(48.dp))
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .widthIn(max = 400.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .widthIn(max = 400.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            FMText(
-                text = "Welcome to Family Messenger",
-                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
-            FMText(
-                text = "Stay close to the people who matter most.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Spacer(Modifier.height(20.dp))
-
-            FMText(
-                text = "Email address",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
-            FMTextField(
+            AuthEmailTextField(
                 value = uiState.email,
                 onValueChange = onEmailChanged,
-                placeholder = "you@example.com",
                 enabled = !uiState.isLoading,
-                isError = uiState.error != null,
                 errorMessage = uiState.error,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                    imeAction = ImeAction.Done
-                ),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(Modifier.height(4.dp))
-
             FMButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                onClick = onContinue,
                 text = "Continue",
+                onClick = onContinue,
                 enabled = uiState.canContinue,
                 isLoading = uiState.isLoading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
             )
         }
 
         Spacer(Modifier.height(32.dp))
-
-        FMText(
-            text = "We'll send you a verification code to confirm your email.",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
     }
 }
 
-@Preview
+@Preview(name = "Email Entry - Light")
 @Composable
-private fun EmailEntryScreenPreview() {
-    FamilyMessengerTheme {
-        EmailEntryScreen(
-            uiState = EmailEntryUiState(),
-            onEmailChanged = {},
-            onContinue = {},
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun EmailEntryScreenErrorPreview() {
-    FamilyMessengerTheme {
+private fun EmailEntryScreenLightPreview() {
+    FamilyMessengerTheme(darkTheme = false) {
         EmailEntryScreen(
             uiState = EmailEntryUiState(
-                email = "alice@example.com",
-                error = "Unable to send verification code."
+                email = "alice@example.com"
             ),
             onEmailChanged = {},
             onContinue = {},
+            animateIllustration = false
+        )
+    }
+}
+
+@Preview(name = "Email Entry - Dark")
+@Composable
+private fun EmailEntryScreenDarkPreview() {
+    FamilyMessengerTheme(darkTheme = true) {
+        EmailEntryScreen(
+            uiState = EmailEntryUiState(
+                email = "alice@example.com"
+            ),
+            onEmailChanged = {},
+            onContinue = {},
+            animateIllustration = false
         )
     }
 }

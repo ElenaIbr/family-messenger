@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class OtpVerificationViewModel(
     private val email: String,
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -27,7 +27,7 @@ class OtpVerificationViewModel(
                 code = code
                     .filter { char -> char in '0'..'9' }
                     .take(OtpVerificationUiState.OTP_LENGTH),
-                error = null,
+                error = null
             )
         }
     }
@@ -45,7 +45,7 @@ class OtpVerificationViewModel(
             try {
                 authRepository.verifyOtp(
                     email = email,
-                    code = state.code,
+                    code = state.code
                 )
             } catch (e: CancellationException) {
                 throw e

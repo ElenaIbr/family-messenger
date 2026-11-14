@@ -9,7 +9,6 @@ import io.ktor.client.engine.android.Android
 import org.koin.dsl.module
 
 fun androidPlatformModule(context: Context) = module {
-
     single<HttpClientEngine> {
         Android.create()
     }

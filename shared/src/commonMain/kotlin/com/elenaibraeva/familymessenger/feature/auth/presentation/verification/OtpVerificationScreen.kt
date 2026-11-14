@@ -39,7 +39,7 @@ fun OtpVerificationScreen(
     onCodeChanged: (String) -> Unit,
     onVerify: () -> Unit,
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -47,7 +47,7 @@ fun OtpVerificationScreen(
             .imePadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(32.dp))
 
@@ -58,7 +58,7 @@ fun OtpVerificationScreen(
             contentDescription = "Family Messenger",
             modifier = Modifier
                 .size(80.dp)
-                .align(Alignment.Start),
+                .align(Alignment.Start)
         )
 
         Spacer(Modifier.height(48.dp))
@@ -67,34 +67,34 @@ fun OtpVerificationScreen(
             modifier = Modifier
                 .widthIn(max = 400.dp)
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             FMText(
                 text = "Check your email",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold
                 ),
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             FMText(
                 text = "Enter the 8-digit verification code we sent to",
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             FMText(
                 text = email,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.SemiBold
-                ),
+                )
             )
 
             Spacer(Modifier.height(20.dp))
 
             FMText(
                 text = "Verification code",
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.labelLarge
             )
 
             FMTextField(
@@ -106,9 +106,9 @@ fun OtpVerificationScreen(
                 errorMessage = uiState.error,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done,
+                    imeAction = ImeAction.Done
                 ),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(Modifier.height(4.dp))
@@ -120,7 +120,7 @@ fun OtpVerificationScreen(
                 isLoading = uiState.isLoading,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(52.dp),
+                    .height(52.dp)
             )
 
             TextButton(
@@ -128,7 +128,7 @@ fun OtpVerificationScreen(
                 enabled = !uiState.isLoading,
                 modifier = Modifier.align(
                     Alignment.CenterHorizontally
-                ),
+                )
             ) {
                 FMText(text = "Change email address")
             }
@@ -143,11 +143,11 @@ private fun OtpVerificationScreenPreview() {
         OtpVerificationScreen(
             email = "alice@example.com",
             uiState = OtpVerificationUiState(
-                code = "4839",
+                code = "4839"
             ),
             onCodeChanged = {},
             onVerify = {},
-            onBackClick = {},
+            onBackClick = {}
         )
     }
 }

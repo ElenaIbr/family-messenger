@@ -1,20 +1,20 @@
 package com.elenaibraeva.familymessenger.di
 
+import com.elenaibraeva.familymessenger.AppViewModel
 import com.elenaibraeva.familymessenger.core.auth.SupabaseConfig
 import com.elenaibraeva.familymessenger.core.auth.SupabaseSessionManager
 import com.elenaibraeva.familymessenger.feature.auth.data.repository.SupabaseAuthRepository
 import com.elenaibraeva.familymessenger.feature.auth.domain.repository.AuthRepository
+import com.elenaibraeva.familymessenger.feature.auth.presentation.login.EmailEntryViewModel
+import com.elenaibraeva.familymessenger.feature.auth.presentation.verification.OtpVerificationViewModel
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.SessionManager
 import io.github.jan.supabase.createSupabaseClient
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
-import com.elenaibraeva.familymessenger.AppViewModel
-import com.elenaibraeva.familymessenger.feature.auth.presentation.login.EmailEntryViewModel
-import com.elenaibraeva.familymessenger.feature.auth.presentation.verification.OtpVerificationViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
 
 val authModule = module {
 
@@ -58,7 +58,7 @@ val authModule = module {
     viewModel { (email: String) ->
         OtpVerificationViewModel(
             email = email,
-            authRepository = get(),
+            authRepository = get()
         )
     }
 }

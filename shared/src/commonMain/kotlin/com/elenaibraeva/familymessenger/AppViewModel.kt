@@ -7,13 +7,11 @@ import com.elenaibraeva.familymessenger.feature.auth.domain.repository.AuthRepos
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 
-class AppViewModel(
-    authRepository: AuthRepository,
-) : ViewModel() {
+class AppViewModel(authRepository: AuthRepository) : ViewModel() {
 
     val authState = authRepository.authState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
-        initialValue = AuthState.Initializing,
+        initialValue = AuthState.Initializing
     )
 }

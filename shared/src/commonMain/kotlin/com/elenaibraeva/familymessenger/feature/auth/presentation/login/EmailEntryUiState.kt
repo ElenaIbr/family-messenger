@@ -3,7 +3,7 @@ package com.elenaibraeva.familymessenger.feature.auth.presentation.login
 data class EmailEntryUiState(
     val email: String = "",
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val error: String? = null
 ) {
 
     val isEmailValid: Boolean

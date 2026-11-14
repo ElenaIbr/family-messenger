@@ -11,27 +11,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elenaibraeva.familymessenger.AppViewModel
+import com.elenaibraeva.familymessenger.core.designsystem.component.BrandBackground
 import com.elenaibraeva.familymessenger.feature.auth.data.model.AuthState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun AppNavHost(
-    viewModel: AppViewModel = koinViewModel(),
-) {
+fun AppNavHost(viewModel: AppViewModel = koinViewModel()) {
     val authState by viewModel.authState.collectAsStateWithLifecycle()
 
     when (val state = authState) {
         AuthState.Initializing -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
             }
         }
 
         AuthState.Unauthenticated -> {
-            AuthNavHost()
+            BrandBackground {
+                AuthNavHost()
+            }
         }
 
         is AuthState.Authenticated -> {
@@ -43,7 +44,7 @@ fun AppNavHost(
         AuthState.SessionUnavailable -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.Center
             ) {
                 Text("Session unavailable")
             }

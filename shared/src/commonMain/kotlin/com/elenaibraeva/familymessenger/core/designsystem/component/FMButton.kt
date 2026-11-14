@@ -21,7 +21,7 @@ fun FMButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    isLoading: Boolean = false,
+    isLoading: Boolean = false
 ) {
     Button(
         onClick = onClick,
@@ -37,7 +37,7 @@ fun FMButton(
             CircularProgressIndicator(
                 modifier = Modifier.size(20.dp),
                 strokeWidth = 2.dp,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.primary
             )
         } else {
             FMText(
@@ -93,7 +93,7 @@ private fun FMButtonPreviewContent() {
         FMButton(
             text = "Continue",
             onClick = {},
-            isLoading = true,
+            isLoading = true
         )
     }
 }

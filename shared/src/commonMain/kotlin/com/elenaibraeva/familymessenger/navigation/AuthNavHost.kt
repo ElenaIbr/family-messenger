@@ -11,20 +11,19 @@ import com.elenaibraeva.familymessenger.feature.auth.presentation.verification.O
 fun AuthNavHost() {
     val backStack = rememberNavBackStack(
         configuration = navigationSavedStateConfiguration,
-        Destination.Auth.EmailEntry,
+        Destination.Auth.EmailEntry
     )
 
     NavDisplay(
         backStack = backStack,
         entryProvider = entryProvider {
-
             entry<Destination.Auth.EmailEntry> {
                 EmailEntryRoute(
                     onNavigateToVerification = { email ->
                         backStack.add(
                             Destination.Auth.OtpVerification(email)
                         )
-                    },
+                    }
                 )
             }
 
@@ -35,9 +34,9 @@ fun AuthNavHost() {
                         if (backStack.size > 1) {
                             backStack.removeAt(backStack.lastIndex)
                         }
-                    },
+                    }
                 )
             }
-        },
+        }
     )
 }
