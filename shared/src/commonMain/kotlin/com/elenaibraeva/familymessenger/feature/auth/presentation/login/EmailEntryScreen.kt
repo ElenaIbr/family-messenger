@@ -37,7 +37,12 @@ import com.elenaibraeva.familymessenger.generated.resources.ic_family_messenger
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun EmailEntryScreen(onContinue: (String) -> Unit, modifier: Modifier = Modifier) {
+fun EmailEntryScreen(
+    uiState: EmailEntryUiState,
+    onEmailChanged: (String) -> Unit,
+    onContinue: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     var email by remember { mutableStateOf("") }
 
     Column(
@@ -87,9 +92,12 @@ fun EmailEntryScreen(onContinue: (String) -> Unit, modifier: Modifier = Modifier
             )
 
             FMTextField(
-                value = email,
-                onValueChange = { email = it },
+                value = uiState.email,
+                onValueChange = onEmailChanged,
                 placeholder = "you@example.com",
+                enabled = !uiState.isLoading,
+                isError = uiState.error != null,
+                errorMessage = uiState.error,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
@@ -104,8 +112,10 @@ fun EmailEntryScreen(onContinue: (String) -> Unit, modifier: Modifier = Modifier
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
-                onClick = { onContinue(email.trim()) },
-                text = "Continue"
+                onClick = onContinue,
+                text = "Continue",
+                enabled = uiState.canContinue,
+                isLoading = uiState.isLoading,
             )
         }
 
@@ -126,7 +136,24 @@ fun EmailEntryScreen(onContinue: (String) -> Unit, modifier: Modifier = Modifier
 private fun EmailEntryScreenPreview() {
     FamilyMessengerTheme {
         EmailEntryScreen(
-            onContinue = {}
+            uiState = EmailEntryUiState(),
+            onEmailChanged = {},
+            onContinue = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun EmailEntryScreenErrorPreview() {
+    FamilyMessengerTheme {
+        EmailEntryScreen(
+            uiState = EmailEntryUiState(
+                email = "alice@example.com",
+                error = "Unable to send verification code."
+            ),
+            onEmailChanged = {},
+            onContinue = {},
         )
     }
 }

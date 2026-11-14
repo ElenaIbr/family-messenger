@@ -7,6 +7,7 @@ import org.koin.core.module.Module
 fun initKoin(platformModule: Module): KoinApplication = startKoin {
     modules(
         networkModule,
+        authModule,
         platformModule
     )
 }

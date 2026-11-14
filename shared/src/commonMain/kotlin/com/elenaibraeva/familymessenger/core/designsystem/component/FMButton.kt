@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,22 +20,31 @@ fun FMButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    isLoading: Boolean = false,
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
-        enabled = enabled,
+        enabled = enabled && !isLoading,
         shape = MaterialTheme.shapes.large,
         contentPadding = PaddingValues(
             horizontal = 24.dp,
             vertical = 12.dp
         )
     ) {
-        FMText(
-            text = text,
-            style = MaterialTheme.typography.labelLarge
-        )
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(20.dp),
+                strokeWidth = 2.dp,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        } else {
+            FMText(
+                text = text,
+                style = MaterialTheme.typography.labelLarge
+            )
+        }
     }
 }
 
@@ -75,6 +86,14 @@ private fun FMButtonPreviewContent() {
             text = "Continue",
             onClick = {},
             enabled = false
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        FMButton(
+            text = "Continue",
+            onClick = {},
+            isLoading = true,
         )
     }
 }
