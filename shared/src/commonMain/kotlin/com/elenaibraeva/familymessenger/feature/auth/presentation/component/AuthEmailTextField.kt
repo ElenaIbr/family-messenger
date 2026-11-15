@@ -3,6 +3,7 @@ package com.elenaibraeva.familymessenger.feature.auth.presentation.component
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
@@ -28,7 +29,8 @@ fun AuthEmailTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     errorMessage: String? = null,
-    onFocusChanged: (Boolean) -> Unit = {}
+    onFocusChanged: (Boolean) -> Unit = {},
+    onSend: () -> Unit = {}
 ) {
     val colors = MaterialTheme.colorScheme
     val shape = RoundedCornerShape(20.dp)
@@ -58,7 +60,10 @@ fun AuthEmailTextField(
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Send
+        ),
+        keyboardActions = KeyboardActions(
+            onSend = { onSend() }
         ),
         supportingText = errorMessage?.let { message ->
             {

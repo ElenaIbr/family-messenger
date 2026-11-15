@@ -14,6 +14,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,11 +38,26 @@ fun EmailEntryScreen(
     val colors = FamilyTheme.colors
     val colorScheme = MaterialTheme.colorScheme
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
+    val submitEmail: () -> Unit = {
+        if (uiState.canContinue) {
+            focusManager.clearFocus()
+            keyboardController?.hide()
+            onContinue()
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp),
+            .padding(
+                start = 24.dp,
+                end = 24.dp,
+                bottom = 24.dp
+            )
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(32.dp))
@@ -84,6 +101,7 @@ fun EmailEntryScreen(
             AuthEmailTextField(
                 value = uiState.email,
                 onValueChange = onEmailChanged,
+                onSend = submitEmail,
                 enabled = !uiState.isLoading,
                 errorMessage = uiState.error,
                 modifier = Modifier.fillMaxWidth()
@@ -91,7 +109,7 @@ fun EmailEntryScreen(
 
             FMButton(
                 text = "Continue",
-                onClick = onContinue,
+                onClick = submitEmail,
                 enabled = uiState.canContinue,
                 isLoading = uiState.isLoading,
                 modifier = Modifier

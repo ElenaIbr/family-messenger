@@ -32,11 +32,11 @@ import com.elenaibraeva.familymessenger.generated.resources.avatar_man
 import com.elenaibraeva.familymessenger.generated.resources.avatar_woman_1
 import com.elenaibraeva.familymessenger.generated.resources.avatar_woman_2
 import com.elenaibraeva.familymessenger.generated.resources.ic_family_messenger_together
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 private val avatars = listOf(
     Res.drawable.avatar_cat,
