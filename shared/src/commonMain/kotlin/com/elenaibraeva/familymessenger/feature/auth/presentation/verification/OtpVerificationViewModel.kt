@@ -2,6 +2,8 @@ package com.elenaibraeva.familymessenger.feature.auth.presentation.verification
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elenaibraeva.familymessenger.feature.auth.domain.model.AuthError
+import com.elenaibraeva.familymessenger.feature.auth.domain.model.AuthException
 import com.elenaibraeva.familymessenger.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,11 +51,13 @@ class OtpVerificationViewModel(
                 )
             } catch (e: CancellationException) {
                 throw e
+            } catch (e: AuthException) {
+                _uiState.update {
+                    it.copy(error = e.error)
+                }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(
-                        error = "Unable to verify code. Please try again."
-                    )
+                    it.copy(error = AuthError.UNKNOWN)
                 }
             } finally {
                 _uiState.update {

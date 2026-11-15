@@ -1,9 +1,11 @@
 package com.elenaibraeva.familymessenger.feature.auth.presentation.login
 
+import com.elenaibraeva.familymessenger.feature.auth.domain.model.AuthError
+
 data class EmailEntryUiState(
     val email: String = "",
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: AuthError? = null
 ) {
 
     val isEmailValid: Boolean

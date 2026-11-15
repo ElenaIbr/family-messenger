@@ -26,6 +26,8 @@ import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyMessengerT
 import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyTheme
 import com.elenaibraeva.familymessenger.feature.auth.presentation.component.AuthEmailTextField
 import com.elenaibraeva.familymessenger.feature.auth.presentation.component.FamilyOrbitIllustration
+import com.elenaibraeva.familymessenger.feature.auth.presentation.mapper.toMessageResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EmailEntryScreen(
@@ -47,6 +49,10 @@ fun EmailEntryScreen(
             keyboardController?.hide()
             onContinue()
         }
+    }
+
+    val errorMessage = uiState.error?.let {
+        stringResource(it.toMessageResource())
     }
 
     Column(
@@ -103,7 +109,7 @@ fun EmailEntryScreen(
                 onValueChange = onEmailChanged,
                 onSend = submitEmail,
                 enabled = !uiState.isLoading,
-                errorMessage = uiState.error,
+                errorMessage = errorMessage,
                 modifier = Modifier.fillMaxWidth()
             )
 

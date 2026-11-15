@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_error_email_rate_limit">Please wait before requesting another code.</string>
+    <string name="auth_error_request_rate_limit">Too many attempts. Please try again later.</string>
+    <string name="auth_error_invalid_otp">The verification code is invalid or has expired.</string>
+    <string name="auth_error_invalid_email">Please enter a valid email address.</string>
+    <string name="auth_error_network">Check your internet connection and try again.</string>
+    <string name="auth_error_server">Something went wrong. Please try again later.</string>
+    <string name="auth_error_unknown">An unexpected error occurred. Please try again.</string>
+</resources>

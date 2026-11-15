@@ -2,6 +2,8 @@ package com.elenaibraeva.familymessenger.feature.auth.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elenaibraeva.familymessenger.feature.auth.domain.model.AuthError
+import com.elenaibraeva.familymessenger.feature.auth.domain.model.AuthException
 import com.elenaibraeva.familymessenger.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
@@ -48,11 +50,13 @@ class EmailEntryViewModel(private val authRepository: AuthRepository) : ViewMode
                 )
             } catch (e: CancellationException) {
                 throw e
+            } catch (e: AuthException) {
+                _uiState.update {
+                    it.copy(error = e.error)
+                }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(
-                        error = "Unable to send verification code. Please try again."
-                    )
+                    it.copy(error = AuthError.UNKNOWN)
                 }
             } finally {
                 _uiState.update {

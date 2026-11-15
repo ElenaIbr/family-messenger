@@ -28,9 +28,11 @@ import com.elenaibraeva.familymessenger.core.designsystem.component.FMButton
 import com.elenaibraeva.familymessenger.core.designsystem.component.FMText
 import com.elenaibraeva.familymessenger.core.designsystem.component.FMTextField
 import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyMessengerTheme
+import com.elenaibraeva.familymessenger.feature.auth.presentation.mapper.toMessageResource
 import com.elenaibraeva.familymessenger.generated.resources.Res
 import com.elenaibraeva.familymessenger.generated.resources.ic_family_messenger
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun OtpVerificationScreen(
@@ -41,6 +43,10 @@ fun OtpVerificationScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val errorMessage = uiState.error?.let {
+        stringResource(it.toMessageResource())
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -103,7 +109,7 @@ fun OtpVerificationScreen(
                 placeholder = "00000000",
                 enabled = !uiState.isLoading,
                 isError = uiState.error != null,
-                errorMessage = uiState.error,
+                errorMessage = errorMessage,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
