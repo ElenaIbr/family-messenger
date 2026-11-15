@@ -2,7 +2,7 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="128dp" android:height="128dp" android:viewportWidth="128" android:viewportHeight="128">
   <group>
     <clip-path android:pathData="M64 0 A64 64 0 1 1 64 128 A64 64 0 1 1 64 0 Z" />
-    <path android:pathData="M64 0 A64 64 0 1 1 64 128 A64 64 0 1 1 64 0 Z" android:fillColor="#E9DFF9" />
+    <path android:pathData="M64 0 A64 64 0 1 1 64 128 A64 64 0 1 1 64 0 Z" android:fillColor="#FFFFFF" />
     <group android:pivotX="64" android:pivotY="128" android:scaleX="0.8" android:scaleY="0.8">
       <path android:pathData="M44 24 C38 9 49 2 64 2 C79 2 90 9 84 24 Z" android:fillColor="#A48ABB" />
       <path android:pathData="M32 80 Q20 70 23 51 Q23 23 64 18 Q105 23 105 51 Q108 70 96 80 Q103 92 93 99 Q96 87 88 78 H40 Q32 87 35 99 Q25 92 32 80 Z" android:fillColor="#A48ABB" />
