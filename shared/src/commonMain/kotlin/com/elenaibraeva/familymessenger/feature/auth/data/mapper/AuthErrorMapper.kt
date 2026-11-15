@@ -39,13 +39,12 @@ internal fun Exception.toAuthException(): AuthException {
 
     return AuthException(
         error = authError,
-        cause = this,
+        cause = this
     )
 }
 
-private fun mapHttpStatus(status: Int): AuthError =
-    when (status) {
-        429 -> AuthError.REQUEST_RATE_LIMIT
-        in 500..599 -> AuthError.SERVER
-        else -> AuthError.UNKNOWN
-    }
+private fun mapHttpStatus(status: Int): AuthError = when (status) {
+    429 -> AuthError.REQUEST_RATE_LIMIT
+    in 500..599 -> AuthError.SERVER
+    else -> AuthError.UNKNOWN
+}

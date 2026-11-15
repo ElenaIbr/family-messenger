@@ -7,5 +7,5 @@ enum class AuthError {
     INVALID_EMAIL,
     NETWORK,
     SERVER,
-    UNKNOWN,
+    UNKNOWN
 }
