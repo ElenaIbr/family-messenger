@@ -13,28 +13,37 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.elenaibraeva.familymessenger.core.designsystem.component.FMText
 import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyMessengerTheme
 import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyTheme
 import com.elenaibraeva.familymessenger.generated.resources.Res
-import com.elenaibraeva.familymessenger.generated.resources.ic_family_messenger_white
+import com.elenaibraeva.familymessenger.generated.resources.avatar_cat
+import com.elenaibraeva.familymessenger.generated.resources.avatar_man
+import com.elenaibraeva.familymessenger.generated.resources.avatar_woman_1
+import com.elenaibraeva.familymessenger.generated.resources.avatar_woman_2
+import com.elenaibraeva.familymessenger.generated.resources.ic_family_messenger_together
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-import org.jetbrains.compose.resources.painterResource
 
-private val contacts = listOf("M", "D", "S", "A")
+private val avatars = listOf(
+    Res.drawable.avatar_cat,
+    Res.drawable.avatar_man,
+    Res.drawable.avatar_woman_1,
+    Res.drawable.avatar_woman_2
+)
 
 @Composable
 fun FamilyOrbitIllustration(modifier: Modifier = Modifier, animate: Boolean = true) {
@@ -59,9 +68,9 @@ fun FamilyOrbitIllustration(modifier: Modifier = Modifier, animate: Boolean = tr
         modifier = modifier.aspectRatio(1f),
         contentAlignment = Alignment.Center
     ) {
-        val orbitRadius = maxWidth * 0.34f
-        val avatarSize = maxWidth * 0.19f
-        val centerSize = maxWidth * 0.40f
+        val orbitRadius = maxWidth * 0.35f
+        val avatarSize = maxWidth * 0.24f
+        val centerSize = maxWidth * 0.34f
 
         // Dashed orbit
         Canvas(
@@ -94,15 +103,15 @@ fun FamilyOrbitIllustration(modifier: Modifier = Modifier, animate: Boolean = tr
         ) {
             Image(
                 painter = painterResource(
-                    Res.drawable.ic_family_messenger_white
+                    Res.drawable.ic_family_messenger_together
                 ),
                 contentDescription = null,
-                modifier = Modifier.size(centerSize * 0.85f)
+                modifier = Modifier.size(centerSize * 0.65f)
             )
         }
 
         // Orbiting family members
-        contacts.forEachIndexed { index, initials ->
+        avatars.forEachIndexed { index, avatar ->
             val angle = (
                 -135f + index * 90f + rotation.value
                 ) * PI / 180.0
@@ -111,7 +120,7 @@ fun FamilyOrbitIllustration(modifier: Modifier = Modifier, animate: Boolean = tr
             val y = orbitRadius * sin(angle).toFloat()
 
             OrbitAvatar(
-                initials = initials,
+                avatar = avatar,
                 modifier = Modifier
                     .offset(x = x, y = y)
                     .size(avatarSize)
@@ -121,24 +130,18 @@ fun FamilyOrbitIllustration(modifier: Modifier = Modifier, animate: Boolean = tr
 }
 
 @Composable
-private fun OrbitAvatar(initials: String, modifier: Modifier = Modifier) {
-    val colors = FamilyTheme.colors
-
-    Box(
-        modifier = modifier.background(
-            color = colors.brandAvatarContainer,
-            shape = CircleShape
-        ),
-        contentAlignment = Alignment.Center
-    ) {
-        FMText(
-            text = initials,
-            color = colors.brandAvatarContent,
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontWeight = FontWeight.SemiBold
+private fun OrbitAvatar(avatar: DrawableResource, modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(avatar),
+        contentDescription = null,
+        modifier = modifier
+            .background(
+                color = FamilyTheme.colors.brandGradientStart,
+                shape = CircleShape
             )
-        )
-    }
+            .clip(CircleShape),
+        contentScale = ContentScale.Fit
+    )
 }
 
 @Preview(name = "Family Orbit - Light")
