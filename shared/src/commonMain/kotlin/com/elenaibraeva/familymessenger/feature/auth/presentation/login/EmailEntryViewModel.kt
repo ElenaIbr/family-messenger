@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elenaibraeva.familymessenger.feature.auth.domain.model.AuthError
 import com.elenaibraeva.familymessenger.feature.auth.domain.model.AuthException
-import com.elenaibraeva.familymessenger.feature.auth.domain.repository.AuthRepository
+import com.elenaibraeva.familymessenger.feature.auth.domain.model.OtpRequestResult
+import com.elenaibraeva.familymessenger.feature.auth.domain.service.OtpRequestCoordinator
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class EmailEntryViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class EmailEntryViewModel(private val otpRequestCoordinator: OtpRequestCoordinator) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EmailEntryUiState())
     val uiState = _uiState.asStateFlow()
@@ -22,11 +23,15 @@ class EmailEntryViewModel(private val authRepository: AuthRepository) : ViewMode
     val events = _events.receiveAsFlow()
 
     fun onEmailChanged(email: String) {
-        _uiState.update {
-            it.copy(
-                email = email,
-                error = null
-            )
+        _uiState.update { state ->
+            if (state.isLoading) {
+                state
+            } else {
+                state.copy(
+                    email = email,
+                    error = null
+                )
+            }
         }
     }
 
@@ -43,11 +48,16 @@ class EmailEntryViewModel(private val authRepository: AuthRepository) : ViewMode
 
         viewModelScope.launch {
             try {
-                authRepository.requestOtp(email)
-
-                _events.send(
-                    EmailEntryEvent.NavigateToVerification(email)
-                )
+                when (
+                    otpRequestCoordinator.requestOtp(email)
+                ) {
+                    OtpRequestResult.Sent,
+                    is OtpRequestResult.CooldownActive -> {
+                        _events.send(
+                            EmailEntryEvent.NavigateToVerification(email)
+                        )
+                    }
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: AuthException) {

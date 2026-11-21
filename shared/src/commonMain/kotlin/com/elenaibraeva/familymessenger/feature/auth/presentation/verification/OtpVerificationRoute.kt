@@ -20,6 +20,7 @@ fun OtpVerificationRoute(email: String, onBackClick: () -> Unit) {
         uiState = uiState,
         onCodeChanged = viewModel::onCodeChanged,
         onVerify = viewModel::onVerify,
+        onResendCode = viewModel::onResendCode,
         onBackClick = onBackClick
     )
 }

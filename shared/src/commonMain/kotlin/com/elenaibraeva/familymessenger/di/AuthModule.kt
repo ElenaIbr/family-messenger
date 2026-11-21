@@ -5,6 +5,7 @@ import com.elenaibraeva.familymessenger.core.auth.SupabaseConfig
 import com.elenaibraeva.familymessenger.core.auth.SupabaseSessionManager
 import com.elenaibraeva.familymessenger.feature.auth.data.repository.SupabaseAuthRepository
 import com.elenaibraeva.familymessenger.feature.auth.domain.repository.AuthRepository
+import com.elenaibraeva.familymessenger.feature.auth.domain.service.OtpRequestCoordinator
 import com.elenaibraeva.familymessenger.feature.auth.presentation.login.EmailEntryViewModel
 import com.elenaibraeva.familymessenger.feature.auth.presentation.verification.OtpVerificationViewModel
 import io.github.jan.supabase.auth.Auth
@@ -53,11 +54,22 @@ val authModule = module {
     }
 
     viewModelOf(::AppViewModel)
-    viewModelOf(::EmailEntryViewModel)
+    viewModel {
+        EmailEntryViewModel(
+            otpRequestCoordinator = get()
+        )
+    }
 
     viewModel { (email: String) ->
         OtpVerificationViewModel(
             email = email,
+            authRepository = get(),
+            otpRequestCoordinator = get()
+        )
+    }
+
+    single {
+        OtpRequestCoordinator(
             authRepository = get()
         )
     }

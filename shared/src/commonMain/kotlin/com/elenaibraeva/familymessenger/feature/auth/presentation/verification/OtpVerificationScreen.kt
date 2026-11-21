@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.elenaibraeva.familymessenger.core.designsystem.component.BrandBackground
 import com.elenaibraeva.familymessenger.core.designsystem.component.FMButton
 import com.elenaibraeva.familymessenger.core.designsystem.component.FMText
 import com.elenaibraeva.familymessenger.core.designsystem.theme.FamilyMessengerTheme
@@ -47,6 +48,7 @@ fun OtpVerificationScreen(
     onCodeChanged: (String) -> Unit,
     onVerify: () -> Unit,
     onBackClick: () -> Unit,
+    onResendCode: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val colors = FamilyTheme.colors
@@ -77,7 +79,7 @@ fun OtpVerificationScreen(
     ) {
         IconButton(
             onClick = onBackClick,
-            enabled = !uiState.isLoading,
+            enabled = !uiState.isLoading && !uiState.isResending,
             modifier = Modifier.align(Alignment.Start)
         ) {
             Icon(
@@ -154,7 +156,7 @@ fun OtpVerificationScreen(
                 value = uiState.code,
                 onValueChange = onCodeChanged,
                 length = OtpVerificationUiState.OTP_LENGTH,
-                enabled = !uiState.isLoading,
+                enabled = !uiState.isLoading && !uiState.isResending,
                 isError = uiState.error != null,
                 onDone = submitCode,
                 modifier = Modifier.fillMaxWidth()
@@ -181,8 +183,28 @@ fun OtpVerificationScreen(
             )
 
             TextButton(
+                onClick = onResendCode,
+                enabled = uiState.canResend
+            ) {
+                FMText(
+                    text = when {
+                        uiState.isResending -> "Sending..."
+                        uiState.resendCooldownSeconds > 0 ->
+                            "Resend code in ${uiState.resendCooldownSeconds}s"
+                        else -> "Resend code"
+                    },
+                    color = if (uiState.canResend) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
+
+            TextButton(
                 onClick = onBackClick,
-                enabled = !uiState.isLoading
+                enabled = !uiState.isLoading && !uiState.isResending
             ) {
                 FMText(
                     text = "Change email address",
@@ -200,15 +222,19 @@ fun OtpVerificationScreen(
 @Composable
 private fun OtpVerificationScreenLightPreview() {
     FamilyMessengerTheme(darkTheme = false) {
-        OtpVerificationScreen(
-            email = "alice@example.com",
-            uiState = OtpVerificationUiState(
-                code = "4839"
-            ),
-            onCodeChanged = {},
-            onVerify = {},
-            onBackClick = {}
-        )
+        BrandBackground {
+            OtpVerificationScreen(
+                email = "alice@example.com",
+                uiState = OtpVerificationUiState(
+                    code = "4839",
+                    resendCooldownSeconds = 45,
+                ),
+                onCodeChanged = {},
+                onVerify = {},
+                onBackClick = {},
+                onResendCode = {},
+            )
+        }
     }
 }
 
@@ -216,14 +242,18 @@ private fun OtpVerificationScreenLightPreview() {
 @Composable
 private fun OtpVerificationScreenDarkPreview() {
     FamilyMessengerTheme(darkTheme = true) {
-        OtpVerificationScreen(
-            email = "alice@example.com",
-            uiState = OtpVerificationUiState(
-                code = "4839"
-            ),
-            onCodeChanged = {},
-            onVerify = {},
-            onBackClick = {}
-        )
+        BrandBackground {
+            OtpVerificationScreen(
+                email = "alice@example.com",
+                uiState = OtpVerificationUiState(
+                    code = "4839",
+                    resendCooldownSeconds = 45,
+                ),
+                onCodeChanged = {},
+                onVerify = {},
+                onBackClick = {},
+                onResendCode = {},
+            )
+        }
     }
 }
