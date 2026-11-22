@@ -8,6 +8,7 @@ fun initKoin(platformModule: Module): KoinApplication = startKoin {
     modules(
         networkModule,
         authModule,
+        userModule,
         platformModule
     )
 }

@@ -26,7 +26,6 @@ class SupabaseAuthRepository(private val supabaseClient: SupabaseClient) : AuthR
                         AuthState.Unauthenticated
 
                     is SessionStatus.Authenticated -> {
-                        status.session.accessToken
                         val userId = status.session.user?.id
 
                         if (userId != null) {

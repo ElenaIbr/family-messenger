@@ -3,7 +3,9 @@ package com.elenaibraeva.familymessenger.di
 import com.elenaibraeva.familymessenger.AppViewModel
 import com.elenaibraeva.familymessenger.core.auth.SupabaseConfig
 import com.elenaibraeva.familymessenger.core.auth.SupabaseSessionManager
+import com.elenaibraeva.familymessenger.feature.auth.data.SupabaseAccessTokenProvider
 import com.elenaibraeva.familymessenger.feature.auth.data.repository.SupabaseAuthRepository
+import com.elenaibraeva.familymessenger.feature.auth.domain.AccessTokenProvider
 import com.elenaibraeva.familymessenger.feature.auth.domain.repository.AuthRepository
 import com.elenaibraeva.familymessenger.feature.auth.domain.service.OtpRequestCoordinator
 import com.elenaibraeva.familymessenger.feature.auth.presentation.login.EmailEntryViewModel
@@ -53,7 +55,13 @@ val authModule = module {
         bind<AuthRepository>()
     }
 
-    viewModelOf(::AppViewModel)
+    viewModel {
+        AppViewModel(
+            authRepository = get(),
+            profileRepository = get(),
+        )
+    }
+
     viewModel {
         EmailEntryViewModel(
             otpRequestCoordinator = get()
@@ -72,5 +80,9 @@ val authModule = module {
         OtpRequestCoordinator(
             authRepository = get()
         )
+    }
+
+    single<AccessTokenProvider> {
+        SupabaseAccessTokenProvider(supabaseClient = get())
     }
 }
