@@ -25,6 +25,12 @@ fun AppNavHost(viewModel: AppViewModel = koinViewModel()) {
     val authState by viewModel.authState.collectAsStateWithLifecycle()
     val profileState by viewModel.profileState.collectAsStateWithLifecycle()
 
+    val isCreatingProfile by viewModel.isCreatingProfile
+        .collectAsStateWithLifecycle()
+
+    val createProfileError by viewModel.createProfileError
+        .collectAsStateWithLifecycle()
+
     when (val state = authState) {
         AuthState.Initializing -> {
             LoadingScreen()
@@ -44,13 +50,13 @@ fun AppNavHost(viewModel: AppViewModel = koinViewModel()) {
                     ProfileState.Exists -> MainNavHost()
 
                     ProfileState.Missing -> {
-                        ProfileSetupScreen(
-                            isLoading = false,
-                            errorMessage = null,
-                            onSubmit = { _, _, _ ->
-                                // Подключим сохранение на следующем шаге
-                            },
-                        )
+                        BrandBackground {
+                            ProfileSetupScreen(
+                                isLoading = isCreatingProfile,
+                                errorMessage = createProfileError,
+                                onSubmit = viewModel::createProfile,
+                            )
+                        }
                     }
 
                     is ProfileState.Error -> {
