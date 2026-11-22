@@ -7,6 +7,17 @@ spring:
     username: messenger_dev
     password: local_dev_password
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://qvmjkrcmulqyqbryhvws.supabase.co/auth/v1
+          jwk-set-uri: https://qvmjkrcmulqyqbryhvws.supabase.co/auth/v1/.well-known/jwks.json
+          audiences:
+            - authenticated
+          jws-algorithms:
+            - ES256
+
   flyway:
     enabled: true
 
